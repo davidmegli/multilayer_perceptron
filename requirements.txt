@@ -1,0 +1,8 @@
+matplotlib
+numpy
+torch+cu118
+torchvision+cu118
+torchaudio+cu118
+scikit-learn
+tensorboard
+wandb
