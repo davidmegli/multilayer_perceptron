@@ -13,7 +13,7 @@ class MLP(nn.Module):
         for i in range(len(layer_sizes)-1):
             layers.append(nn.Linear(layer_sizes[i], layer_sizes[i+1]))
             if i < len(layer_sizes) - 2:
-                layers.append(nn.ReLUI())
+                layers.append(nn.ReLU())
         self.layers = nn.Sequential(*layers)
 
     def forward(self, x):
