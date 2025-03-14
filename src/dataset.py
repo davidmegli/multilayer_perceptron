@@ -1,5 +1,5 @@
 '''
-File name: train.py
+File name: dataset.py
 Author: David Megli
 Created: 2025-03-13
 Description: MNIST dataloader function
