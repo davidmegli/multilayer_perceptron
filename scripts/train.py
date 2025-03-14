@@ -15,8 +15,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 train_dataloader, val_dataloader = get_mnist_dataloaders(config.BATCH_SIZE)
 
-model = MLP().to(device)
+model = MLP(config.LAYER_SIZES).to(device)
 optimizer = optim.Adam(model.parameters(), lr=config.LR)
 # criterion = torch.nn.CrossEntropyLoss()
 
-train(model, optimizer, train_dataloader, val_dataloader, device, config.EPOCHS)
+USE_WANDB = False
+train(model, optimizer, train_dataloader, val_dataloader, device, config.EPOCHS, use_wandb=USE_WANDB)
