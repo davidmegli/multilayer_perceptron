@@ -60,7 +60,7 @@ def train(model, train_dataloader, val_dataloader, optimizer, device, epochs=10,
         train_loss, train_accuracy = train_epoch(model, train_dataloader, optimizer, epoch, device)
         val_loss, val_accuracy = val_epoch(model, val_dataloader, device)
 
-        printf(f"Epoch {epoch} - Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.4f}, Val Loss: {val_loss:.4f}, Val Accuracy: {val_accuracy:.4f}")
+        print(f"Epoch {epoch} - Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.4f}, Val Loss: {val_loss:.4f}, Val Accuracy: {val_accuracy:.4f}")
 
         writer.add_scalar("Loss/train", train_loss, epoch)
         writer.add_scalar("Accuracy/train", train_accuracy, epoch)
