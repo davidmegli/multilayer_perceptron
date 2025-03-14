@@ -8,14 +8,19 @@ import torch
 from torchvision import transforms
 from PIL import Image
 from src.model import MLP
+import src.config as config
+import os
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = MLP()
-model.load_state_dict(torch.load("models/mnist_mlp.pth")) # Load the trained model
+model = MLP(config.LAYER_SIZES)
+# Find the name of the last saved model in the models directory
+model_dir = "models"
+last_model = model_dir + "\\" + sorted(os.listdir(model_dir))[-1]
+model.load_state_dict(torch.load(last_model)) # Load the trained model
 model.to(device)
 model.eval()
 
-transform = transforms.Compose([transforms.Greyscale(), transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
+transform = transforms.Compose([transforms.Grayscale(), transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
 def predict(image_path):
     image = Image.open(image_path).convert("L") # Convert to greyscale, L stands for luminance
