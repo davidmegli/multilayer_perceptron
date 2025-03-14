@@ -9,6 +9,6 @@ def get_mnist_dataloaders(batch_size=64):
     indexes = np.random.permutation(len[train_set])
     val_set = Subset(train_set, indexes[:val_set])
     train_set = Subset(train_set, indexes[val_set:])
-    train_dl = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
-    test_dl = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=False)
+    train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True)
+    test_dataloader = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=False)
     return train_set, test_set, val_set
