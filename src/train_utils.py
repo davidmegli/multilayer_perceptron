@@ -38,24 +38,24 @@ def train_epoch(model, train_dataloader, optimizer, epoch="Unknown", device="cpu
     train_accuracy = correct / len(train_dataloader.dataset)
     return train_loss, train_accuracy
         
-def val_epoch(model, val_dataloader, device):
+def evaluate(model, dataloader, device):
     model.eval()
-    val_loss, correct = 0, 0
+    loss, correct = 0, 0
 
     with torch.no_grad(): # no gradient computation is needed
-        for (data, label) in tqdm(val_dataloader, desc=f"Evaluating", leave=False):
+        for (data, label) in tqdm(dataloader, desc=f"Evaluating", leave=False):
             data = data.to(device)
             label = label.to(device)
             
             logits = model(data)
             loss = F.cross_entropy(logits, label)
 
-            val_loss += loss.item()
+            loss += loss.item()
             correct += (logits.argmax(1) == label).sum().item()
 
-        val_loss /= len(val_dataloader.dataset)
-        val_accuracy = correct / len(val_dataloader.dataset)
-        return val_loss, val_accuracy
+        loss /= len(dataloader.dataset)
+        accuracy = correct / len(dataloader.dataset)
+        return loss, accuracy
 
 def train(model, train_dataloader, val_dataloader, optimizer, device, epochs=10, use_wandb=False):
     writer = SummaryWriter(log_dir="logs/")
@@ -67,7 +67,7 @@ def train(model, train_dataloader, val_dataloader, optimizer, device, epochs=10,
 
     for epoch in range(epochs):
         train_loss, train_accuracy = train_epoch(model, train_dataloader, optimizer, epoch, device)
-        val_loss, val_accuracy = val_epoch(model, val_dataloader, device)
+        val_loss, val_accuracy = evaluate(model, val_dataloader, device)
 
         print(f"Epoch {epoch+1} - Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.4f}, Val Loss: {val_loss:.4f}, Val Accuracy: {val_accuracy:.4f}")
 

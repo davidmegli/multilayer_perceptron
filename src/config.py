@@ -6,6 +6,7 @@ Description: hyperparameters for training
 '''
 # Hyperparameters
 BATCH_SIZE = 64
+NUM_WORKERS = 4
 LR = 0.001
 EPOCHS = 10
 
