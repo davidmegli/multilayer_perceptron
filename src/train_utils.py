@@ -10,8 +10,15 @@ from tqdm import tqdm
 import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 import wandb
+import os
 
-def train_epoch(model, train_dataloader, optimizer, epoch="Unknown", device):
+def save_checkpoint(model, epoch, val_loss, val_acc, path="models/"):
+    os.makedirs(path, exist_ok=True) # create the directory if it doesn't exist
+    model_path = os.path.join(path, f"model_epoch_{epoch+1}_val_loss_{val_loss:.4f}_val_acc_{val_acc:.4f}.pth")
+    torch.save(model.state_dict(), model_path)
+    print(f"Model saved at {model_path}")
+
+def train_epoch(model, train_dataloader, optimizer, epoch="Unknown", device="cpu"):
     model.train() # set model to training mode
     train_loss, correct = 0, 0 # initialize loss and number of correct predictions
     for (data, label) in tqdm(train_dataloader, desc=f"Epoch {epoch}", leave=True):
@@ -56,11 +63,13 @@ def train(model, train_dataloader, val_dataloader, optimizer, device, epochs=10,
     if use_wandb:
         wandb.init(project="mnist-mlp", config={"epochs": epochs})
 
+    best_val_accuracy = 0
+
     for epoch in range(epochs):
         train_loss, train_accuracy = train_epoch(model, train_dataloader, optimizer, epoch, device)
         val_loss, val_accuracy = val_epoch(model, val_dataloader, device)
 
-        print(f"Epoch {epoch} - Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.4f}, Val Loss: {val_loss:.4f}, Val Accuracy: {val_accuracy:.4f}")
+        print(f"Epoch {epoch+1} - Train Loss: {train_loss:.4f}, Train Accuracy: {train_accuracy:.4f}, Val Loss: {val_loss:.4f}, Val Accuracy: {val_accuracy:.4f}")
 
         writer.add_scalar("Loss/train", train_loss, epoch)
         writer.add_scalar("Accuracy/train", train_accuracy, epoch)
@@ -69,6 +78,10 @@ def train(model, train_dataloader, val_dataloader, optimizer, device, epochs=10,
 
         if use_wandb:
             wandb.log({"Train Loss": train_loss, "Train Accuracy": train_accuracy, "Val Loss": val_loss, "Val Accuracy": val_accuracy})
+
+        if val_accuracy > best_val_accuracy:
+            best_val_accuracy = val_accuracy
+            save_checkpoint(model, epoch, val_loss, val_accuracy)
 
     writer.close()
     if use_wandb:
