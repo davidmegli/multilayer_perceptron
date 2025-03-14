@@ -20,4 +20,11 @@ optimizer = optim.Adam(model.parameters(), lr=config.LR)
 # criterion = torch.nn.CrossEntropyLoss()
 
 USE_WANDB = False
-train(model=model, train_dataloader=train_dataloader, optimizer=optimizer, val_dataloader=val_dataloader, device=device, epochs=config.EPOCHS, use_wandb=USE_WANDB)
+if __name__ == "__main__":
+    train(model=model,
+        train_dataloader=train_dataloader,
+        optimizer=optimizer,
+        val_dataloader=val_dataloader,
+        device=device,
+        epochs=config.EPOCHS,
+        use_wandb=USE_WANDB)
