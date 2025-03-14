@@ -5,4 +5,5 @@ torchvision+cu118
 torchaudio+cu118
 scikit-learn
 tensorboard
+tqdm
 wandb

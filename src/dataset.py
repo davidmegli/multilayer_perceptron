@@ -7,6 +7,7 @@ Description: MNIST dataloader function
 import torch
 from torchvision import datasets, transforms
 from torch.utils.data import Subset
+import numpy as np
 def get_mnist_dataloaders(batch_size=64):
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
     train_set = datasets.MNIST(root="./data", train=True, download=True, transform=transform)
