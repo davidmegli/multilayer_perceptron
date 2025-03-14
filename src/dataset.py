@@ -1,3 +1,9 @@
+'''
+File name: train.py
+Author: David Megli
+Created: 2025-03-13
+Description: MNIST dataloader function
+'''
 import torch
 from torchvision import datasets, transforms
 from torch.utils.data import Subset

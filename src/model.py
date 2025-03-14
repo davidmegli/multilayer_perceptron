@@ -1,3 +1,9 @@
+'''
+File name: model.py
+Author: David Megli
+Created: 2025-03-13
+Description: MLP model implementation
+'''
 import torch.nn as nn
 
 class MLP(nn.Module):
