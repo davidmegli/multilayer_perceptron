@@ -7,7 +7,7 @@ Description:
 import torch
 from torch import nn
 from src.dataset import get_mnist_dataloaders
-from src.model import MLP
+from src.models import MLP
 import src.config as config
 from src.train_utils import evaluate
 import numpy as np

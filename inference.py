@@ -7,7 +7,7 @@ Description:
 import torch
 from torchvision import transforms
 from PIL import Image
-from src.model import MLP
+from src.models import MLP
 import src.config as config
 import os
 

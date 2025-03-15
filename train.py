@@ -7,7 +7,7 @@ Description: Training and evaluation functions for PyTorch models
 import torch
 from torch import optim
 from src.dataset import get_mnist_dataloaders
-from src.model import MLP
+from src.models import MLP
 from src.train_utils import train
 import src.config as config
 
